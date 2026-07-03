@@ -156,3 +156,51 @@ document.addEventListener("DOMContentLoaded", () => {
     mainPage.classList.add("visible");
   }, 4000);
 });
+// =======================
+// EMAILJS CONTACT FORM
+// =======================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  emailjs.init({
+    publicKey: "OHhqQPDSaAh8Di9Rh",
+  });
+
+  const contactForm = document.getElementById("contact-form");
+
+  if (!contactForm) return;
+
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const btn = contactForm.querySelector(".btn-send");
+    const originalText = btn.innerHTML;
+
+    btn.innerHTML = "Sending...";
+    btn.disabled = true;
+
+    emailjs.sendForm(
+      "rameez72457",          // Replace with your actual Service ID if different
+      "template_fjgolr1",
+      contactForm
+    )
+    .then(() => {
+      alert("✅ Message sent successfully!");
+
+      contactForm.reset();
+
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    })
+    .catch((error) => {
+      console.error("EmailJS Error:", error);
+
+      alert("❌ Failed to send message. Please try again.");
+
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    });
+
+  });
+
+});
